@@ -4,97 +4,130 @@
     <?php require '../head.php' ?>
 
     <style>
-        * {
-            font-family: 'Kanit', sans-serif;
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap');
+        
+        :root {
+            --main-bg: #0D1117;
+            --secondary-bg: #161B22;
+            --accent-color: #58A6FF;
+            --text-color: #C9D1D9;
+            --highlight-color: #F85149;
         }
 
         body {
-            background-color: #0D1117;
-            color: #C9D1D9;
+            background-color: var(--main-bg);
+            color: var(--text-color);
             min-height: 100vh;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
+            font-family: 'Kanit', sans-serif;
         }
-
-        form {
-            background-color: #161B22;
-            padding: 2rem;
-            border-radius: 20px;
+        
+        .form-box {
+            background-color: var(--secondary-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
             width: 100%;
             max-width: 600px;
-        }
-
-        input[type="text"],
-        textarea {
-            background-color: #0D1117;
-            border: 1px solid #30363D;
-            color: #C9D1D9;
-            width: 100%;
-            margin-top: 0.5rem;
-            padding: 0.5rem;
-            border-radius: 6px;
-        }
-
-        textarea {
-            resize: none;
         }
 
         .form-title {
             text-align: center;
             font-weight: bold;
-            color: #58A6FF;
-            margin-bottom: 1rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
         }
 
-        .xx {
-            margin-left: 0;
-            display: flex;
-            gap: 10px;
+        input.form-control,
+        textarea.form-control {
+            background-color: var(--main-bg);
+            color: var(--text-color);
+            border: 1px solid #30363D;
+            transition: border-color 0.3s ease;
+        }
+        
+        input.form-control:focus,
+        textarea.form-control:focus {
+            background-color: var(--main-bg);
+            color: var(--text-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(88, 166, 255, 0.25);
         }
 
-        .btn {
-            font-weight: bold;
+        textarea {
+            resize: vertical;
+        }
+        
+        .btn-custom-add {
+            background-color: #238636;
+            border-color: #238636;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-custom-add:hover {
+            background-color: #2ea043;
+        }
+        
+        .btn-custom-delete {
+            background-color: var(--highlight-color);
+            border-color: var(--highlight-color);
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-custom-delete:hover {
+            background-color: #da3633;
         }
 
         .btn-primary {
-            background-color: #238636;
-            border-color: #238636;
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--main-bg);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #4489DD;
+            border-color: #4489DD;
         }
 
-        .btn-success {
-            background-color: #58A6FF;
-            border-color: #58A6FF;
-            color: #0D1117;
+        .alert-success {
+            background-color: #28a74533;
+            color: #28a745;
+            border-color: #28a745;
+        }
+        
+        .alert-danger {
+            background-color: #dc354533;
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+        
+        .btn-close {
+            filter: invert(1);
         }
 
-        .btn-danger {
-            background-color: #F85149;
-            border-color: #F85149;
-        }
-
-        .alert {
-            font-family: 'Kanit', sans-serif;
-        }
     </style>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(function () {
             $('#add').click(function () {
-                var el = $('[name="qualifications[]"]:last');
+                var el = $('input[name="qualifications[]"]:last');
                 var input = el.clone();
                 input.val('');
-                el.after(input);
+                input.insertAfter(el);
             });
-
-            $('#add').click();
-
             $('#delete').click(function () {
                 if ($('input[name="qualifications[]"]').length > 1) {
                     $('input[name="qualifications[]"]:last').remove();
                 }
             });
+            $('#add').click();
         });
     </script>
 </head>
@@ -104,6 +137,7 @@
 
     <?php
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Your PHP code for database insertion remains the same
         $position = $_POST['position'];
         $quantity = $_POST['quantity'];
         $description = $_POST['description'];
@@ -153,21 +187,31 @@
     }
     ?>
 
-    <form method="post">
+    <div class="form-box">
         <h4 class="form-title">ประกาศรับสมัครงาน</h4>
 
-        <input type="text" name="position" placeholder="ชื่อตำแหน่งงาน" required>
-        <input type="text" name="quantity" placeholder="จำนวนที่ต้องการ" required>
-        <textarea name="description" rows="3" placeholder="รายละเอียดของงาน"></textarea>
-        <input type="text" name="qualifications[]" placeholder="คุณสมบัติ" required>
+        <form method="post">
+            <div class="mb-3">
+                <input type="text" name="position" class="form-control" placeholder="ชื่อตำแหน่งงาน" required>
+            </div>
+            <div class="mb-3">
+                <input type="text" name="quantity" class="form-control" placeholder="จำนวนที่ต้องการ" required>
+            </div>
+            <div class="mb-3">
+                <textarea name="description" class="form-control" rows="3" placeholder="รายละเอียดของงาน"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">คุณสมบัติ</label>
+                <input type="text" name="qualifications[]" class="form-control mb-2" placeholder="คุณสมบัติ" required>
+            </div>
+            
+            <div class="d-flex justify-content-between mb-3">
+                <button type="button" id="add" class="btn btn-sm btn-custom-add flex-fill me-2">เพิ่มคุณสมบัติ</button>
+                <button type="button" id="delete" class="btn btn-sm btn-custom-delete flex-fill">ลบคุณสมบัติ</button>
+            </div>
 
-        <div class="xx mt-2 mb-3">
-            <div type="button" id="add" class="btn btn-sm btn-success">เพิ่มคุณสมบัติ</div>
-            <div type="button" id="delete" class="btn btn-sm btn-danger">ลบคุณสมบัติ</div>
-        </div>
-
-        <button type="submit" class="btn btn-sm btn-primary d-block mx-auto">ส่งข้อมูล</button>
-    </form>
+            <button type="submit" class="btn btn-primary d-block w-100">ส่งข้อมูล</button>
+        </form>
+    </div>
 </body>
-
 </html>

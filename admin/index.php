@@ -4,72 +4,86 @@
 <head>
     <?php require '../head.php'; ?>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap');
+
+        :root {
+            --main-bg: #0D1117;
+            --secondary-bg: #161B22;
+            --accent-color: #58A6FF;
+            --text-color: #C9D1D9;
+            --highlight-color: #F85149;
+        }
+
         body {
-            background-color: #0D1117;
-            color: #C9D1D9;
-            font-family: "Kanit", sans-serif;
+            background-color: var(--main-bg);
+            color: var(--text-color);
+            font-family: 'Kanit', sans-serif;
             font-weight: 300;
         }
 
         .form-box {
-            background-color: #161B22;
-            color: #C9D1D9;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(88, 166, 255, 0.2);
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
             min-width: 320px;
         }
 
         input.form-control {
-            background-color: #0D1117;
-            color: #C9D1D9;
+            background-color: var(--main-bg);
+            color: var(--text-color);
             border: 1px solid #30363D;
+            transition: border-color 0.3s ease;
         }
 
         input.form-control:focus {
-            background-color: #0D1117;
-            color: #C9D1D9;
-            border-color: #58A6FF;
-            box-shadow: 0 0 0 0.2rem rgba(88, 166, 255, 0.25);
+            background-color: var(--main-bg);
+            color: var(--text-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(88, 166, 255, 0.25);
         }
 
         .btn-primary {
-            background-color: #58A6FF;
-            border-color: #58A6FF;
-            color: #0D1117;
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--main-bg);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
-        .btn-outline-success,
-        .btn-outline-warning,
-        .btn-danger {
-            border-width: 2px;
+        .btn-primary:hover {
+            background-color: #4489DD;
+            border-color: #4489DD;
         }
 
         .btn-outline-success {
-            border-color: #58A6FF;
-            color: #58A6FF;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            transition: all 0.3s ease;
         }
 
         .btn-outline-success:hover {
-            background-color: #58A6FF;
-            color: #0D1117;
+            background-color: var(--accent-color);
+            color: var(--main-bg);
         }
-
+        
         .btn-outline-warning {
-            border-color: #C9D1D9;
-            color: #C9D1D9;
+            border: 2px solid var(--text-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
         }
 
         .btn-outline-warning:hover {
-            background-color: #C9D1D9;
-            color: #0D1117;
+            background-color: var(--text-color);
+            color: var(--main-bg);
         }
 
         .btn-danger {
-            background-color: #F85149;
-            border-color: #F85149;
+            background-color: var(--highlight-color);
+            border-color: var(--highlight-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
-
+        
         .btn-danger:hover {
             background-color: #da3633;
             border-color: #da3633;
@@ -77,8 +91,8 @@
 
         .alert-danger {
             background-color: #2c0b0e;
-            color: #F85149;
-            border-color: #F85149;
+            color: var(--highlight-color);
+            border-color: var(--highlight-color);
         }
 
         .btn-close {
@@ -125,7 +139,5 @@
             }
         ?>
     </form>
-
-    <?php require '../footer.php'; ?>
 </body>
 </html>

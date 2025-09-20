@@ -2,45 +2,80 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <?php require 'head.php' ?>
+    <?php require 'head.php'; ?>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap');
+
+        :root {
+            --main-bg: #0D1117;
+            --secondary-bg: #161B22;
+            --accent-color: #58A6FF;
+            --text-color: #C9D1D9;
+            --highlight-color: #F85149;
+        }
+
         body {
             font-family: 'Kanit', sans-serif;
-            background-color: #0D1117;
-            color: #C9D1D9;
+            background-color: var(--main-bg);
+            color: var(--text-color);
             padding-top: 80px;
         }
 
         .navbar {
-            background-color: #161B22;
+            background-color: var(--secondary-bg) !important;
         }
 
         .card {
-            background-color: #161B22;
-            color: #C9D1D9;
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
             border: 1px solid #30363d;
+            border-radius: 12px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
         }
 
         .card .btn-danger {
-            background-color: #da3633;
+            background-color: var(--highlight-color);
             border: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .card .btn-danger:hover {
+            background-color: #da3633;
         }
 
         .btn-primary {
-            background-color: #238636;
+            background-color: var(--accent-color);
             border: none;
+            color: var(--main-bg);
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #4489DD;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
         }
 
         a, a:hover {
-            color: #58a6ff;
+            color: var(--accent-color);
         }
 
         .text-primary {
-            color: #58a6ff !important;
+            color: var(--accent-color) !important;
         }
 
         .text-danger {
-            color: #f85149 !important;
+            color: var(--highlight-color) !important;
         }
 
         .text-muted {
@@ -52,7 +87,7 @@
 
 <?php require 'navbar.php'; ?>
 
-<div class="container my-4">
+<div class="container my-5">
     <?php
     $mysqli = new mysqli('localhost', 'root', '', 'jobs_resume');
 
@@ -75,14 +110,14 @@
         include 'footer.php';
         exit;
     } else {
-        echo '<h4 class="text-center text-primary fw-bold mb-4">ตำแหน่งงานที่เปิดรับสมัคร</h4>';
+        echo '<h2 class="text-center section-title mb-4">ตำแหน่งงานที่เปิดรับสมัคร</h2>';
     }
 
     while ($job = $result->fetch_object()) {
-        $qualifications = '<ul class="mb-2">';
+        $qualifications = '<ul class="mb-2 list-unstyled">';
         $qs = explode('/', $job->qualifications);
         foreach ($qs as $q) {
-            $qualifications .= "<li>$q</li>";
+            $qualifications .= "<li><i class='fas fa-check-circle me-2' style='color: var(--highlight-color);'></i>$q</li>";
         }
         $qualifications .= '</ul>';
 
@@ -103,10 +138,10 @@
 
         if (isset($_SESSION['admin'])) {
             echo <<<HTML
-                    <form method="post" onsubmit="return confirm('คุณต้องการลบตำแหน่งงานนี้จริงหรือไม่?');">
-                        <input type="hidden" name="del_id" value="$job->id">
-                        <button type="submit" class="btn btn-danger btn-sm">ลบตำแหน่งนี้</button>
-                    </form>
+                <form method="post" onsubmit="return confirm('คุณต้องการลบตำแหน่งงานนี้จริงหรือไม่?');">
+                    <input type="hidden" name="del_id" value="$job->id">
+                    <button type="submit" class="btn btn-danger btn-sm">ลบตำแหน่งนี้</button>
+                </form>
             HTML;
         }
 
